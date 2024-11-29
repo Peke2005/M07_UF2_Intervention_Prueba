@@ -1,15 +1,15 @@
 <?php
-require_once '../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 error_reporting(ENT_IGNORE);
-//print_r($_FILES["imageFile"]);
+
+// print_r($_FILES["imageFile"]);
 
 // create object ImageManager
 $managerImage = new \Intervention\Image\ImageManager();
 
 // instance object to manipulate
 $imageObject = $managerImage->make($_FILES["imageFile"]["tmp_name"]);
-$imageObject->save("../resources/inputImg/" . $_FILES["imageFile"]["name"]);
-
+$imageObject->save("../resources/inputImg" . $_FILES["imageFile"]["name"]);
 // if the file name exists
 if (is_file("../resources/inputImg/" . $_FILES["imageFile"]["name"])) {
 ?>
@@ -30,26 +30,30 @@ if (is_file("../resources/inputImg/" . $_FILES["imageFile"]["name"])) {
         try{
             switch ($_POST["optionImage"]) {
             case "blur":
-            $image0bject->blur($_POST["grade"]);
+            $imageObject->blur($_POST["grade"]);
             break;
             case "bright":
             $imageObject->brightness($_POST["grade"]);
-            $imageObject->contrast($_POST["grade"]);
             break;
             case "fit":
             $imageObject->fit($_POST["grade"]);
+            break;
             case "contrast":
             $imageObject->contrast($_POST["grade"]);
+            break;
             case "pixelate":
             $imageObject->pixelate($_POST["grade"]);
             break;
             case "sharpen":
             $imageObject->sharpen($_POST["grade"]);
-            break;                
+            break;
+            case "gamma":
+                $imageObject->gamma($_POST["grade"]);
+                break;                   
             }
             
         } catch(Throwable $e){
-            echo "error in bright option";
+            echo $e->getMessage();
         }
         // save image modified in output folder
         $imageObject->save("../resources/outputImg/" . $_FILES["imageFile"]["name"],90);
