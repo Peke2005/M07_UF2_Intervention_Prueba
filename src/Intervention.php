@@ -48,8 +48,8 @@ if (is_file("../resources/inputImg/" . $_FILES["imageFile"]["name"])) {
             $imageObject->sharpen($_POST["grade"]);
             break;
             case "gamma":
-                $imageObject->gamma($_POST["grade"]);
-                break;                   
+            $imageObject->gamma($_POST["grade"]);
+            break;                   
             }
             
         } catch(Throwable $e){
